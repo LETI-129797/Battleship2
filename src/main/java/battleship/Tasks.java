@@ -52,11 +52,13 @@ public class Tasks {
 					myFleet = Fleet.createRandom();
 					game = new Game(myFleet);
 					game.printMyBoard(false, true);
+					GameWindow.open(game);
 					break;
 				case LEFROTA:
 					myFleet = buildFleet(in);
 					game = new Game(myFleet);
 					game.printMyBoard(false, true);
+					GameWindow.open(game);
 					break;
 				case STATUS:
 					if (myFleet != null)
