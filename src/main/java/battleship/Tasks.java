@@ -1,5 +1,6 @@
 package battleship;
 
+import java.util.List;
 import java.util.Scanner;
 
 import org.apache.logging.log4j.LogManager;
@@ -32,6 +33,13 @@ public class Tasks {
 	private static final String MAPA = "mapa";
 	private static final String STATUS = "estado";
 	private static final String SIMULA = "simula";
+	private static final String HISTORICO = "historico";
+
+	// Acesso à base de dados
+	private static final GameDataBase DATABASE = new GameDataBase();
+
+	// Identificador do jogo atualmente em execução
+	private static long currentGameId = -1;
 
 	/**
 	 * This task also tests the fighting element of a round of three shots
@@ -39,7 +47,7 @@ public class Tasks {
 	public static void menu() {
 
 		IFleet myFleet = null;
-		IGame game = null;
+		Game game = null;
 		menuHelp();
 
 		System.out.print("> ");
@@ -51,11 +59,23 @@ public class Tasks {
 				case GERAFROTA:
 					myFleet = Fleet.createRandom();
 					game = new Game(myFleet);
+
+					// Registar um novo jogo na base de dados
+					currentGameId = DATABASE.startGame();
+					game.enableRecording(DATABASE, currentGameId);
+					printGameId();
+
 					game.printMyBoard(false, true);
 					break;
 				case LEFROTA:
 					myFleet = buildFleet(in);
 					game = new Game(myFleet);
+
+					// Registar um novo jogo na base de dados
+					currentGameId = DATABASE.startGame();
+					game.enableRecording(DATABASE, currentGameId);
+					printGameId();
+
 					game.printMyBoard(false, true);
 					break;
 				case STATUS:
@@ -101,9 +121,12 @@ public class Tasks {
 					if (game != null)
 						game.printMyBoard(true, true);
 					break;
-                case AJUDA:
-                    menuHelp();
-                    break;
+				case HISTORICO:
+					showHistory(in.nextLine().trim());
+					break;
+				case AJUDA:
+					menuHelp();
+					break;
 				default:
 					System.out.println("Que comando é esse??? Repete ...");
 			}
@@ -111,6 +134,48 @@ public class Tasks {
 			command = in.next();
 		}
 		System.out.println(GOODBYE_MESSAGE);
+	}
+
+	/**
+	 * Informs the user of the id under which the current game is being recorded.
+	 */
+	private static void printGameId() {
+		if (currentGameId >= 0)
+			System.out.println("Jogo registado na base de dados com o id " + currentGameId);
+		else
+			System.out.println("Aviso: base de dados indisponível, as jogadas não serão guardadas.");
+	}
+
+	/**
+	 * Lists the moves stored in the database for a given game.
+	 *
+	 * @param argument the game id typed after the command; if empty, the current game is used
+	 */
+	private static void showHistory(String argument) {
+		long gameId = currentGameId;
+
+		if (!argument.isEmpty()) {
+			try {
+				gameId = Long.parseLong(argument);
+			} catch (NumberFormatException e) {
+				System.out.println("Uso: " + HISTORICO + " [id do jogo]");
+				return;
+			}
+		}
+
+		if (gameId < 0) {
+			System.out.println("Não há jogo atual. Use: " + HISTORICO + " <id do jogo>");
+			return;
+		}
+
+		List<String> moves = DATABASE.listMoves(gameId);
+		if (moves.isEmpty()) {
+			System.out.println("Não há jogadas registadas para o jogo " + gameId + ".");
+			return;
+		}
+
+		System.out.println("Jogadas do jogo " + gameId + ":");
+		moves.forEach(System.out::println);
 	}
 
 	/**
@@ -126,6 +191,7 @@ public class Tasks {
 		System.out.println("- " + RAJADA + ": Realiza uma rajada de disparos.");
 		System.out.println("- " + SIMULA + ": Simula um jogo completo.");
 		System.out.println("- " + TIROS + ": Lista os tiros válidos realizados (* = tiro em navio, o = tiro na água)");
+		System.out.println("- " + HISTORICO + " [id]: Lista as jogadas guardadas na base de dados (do jogo atual se não indicar id).");
 		System.out.println("- " + DESISTIR + ": Encerra o jogo.");
 		System.out.println("===============================================================");
 	}
@@ -226,5 +292,4 @@ public class Tasks {
 			throw new IllegalArgumentException("Formato inválido. Use 'A3', 'A 3' ou similar.");
 		}
 	}
-
 }

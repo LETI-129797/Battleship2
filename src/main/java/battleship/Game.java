@@ -169,6 +169,13 @@ public class Game implements IGame
 	private Integer countSinks;
 	private int moveNumber;
 
+	// BD: base de dados onde se registam as jogadas (null = não regista)
+	private GameDataBase database;
+	// BD: id do jogo na base de dados (-1 = sem registo)
+	private long gameId = -1;
+	// BD: descrição do resultado do último tiro disparado
+	private String lastShotDescription = "";
+
 	//------------------------------------------------------------------
 	public Game(IFleet myFleet)
 	{
@@ -184,6 +191,18 @@ public class Game implements IGame
 		this.countRepeatedShots = 0;
 		this.countHits = 0;
 		this.countSinks = 0;
+	}
+
+	/**
+	 * BD: ativa o registo das jogadas na base de dados.
+	 *
+	 * @param database a base de dados onde guardar
+	 * @param gameId   o id do jogo (se for negativo, nada é guardado)
+	 */
+	public void enableRecording(GameDataBase database, long gameId)
+	{
+		this.database = database;
+		this.gameId = gameId;
 	}
 
 	@Override
@@ -340,9 +359,13 @@ public class Game implements IGame
 			throw new IllegalArgumentException("Must fire exactly " + NUMBER_SHOTS + " shots per move.");
 		}
 
+		// BD: descrições dos resultados, uma por tiro
+		List<String> descriptions = new ArrayList<String>();
+
 		List<IPosition> alreadyShot = new ArrayList<IPosition>();
 		for (IPosition pos : shots) {
 			shotResults.add(fireSingleShot(pos, alreadyShot.contains(pos)));
+			descriptions.add(lastShotDescription); // BD
 			alreadyShot.add(pos);
 		}
 
@@ -354,7 +377,24 @@ public class Game implements IGame
 
 		alienMoves.add(move);
 
+		// BD: guardar cada tiro da rajada na base de dados
+		recordShots(shots, descriptions);
+
 		moveNumber++;
+	}
+
+	/**
+	 * BD: guarda na base de dados os tiros de uma rajada.
+	 * Se o registo não estiver ativo ou o jogo não tiver id válido, não faz nada.
+	 */
+	private void recordShots(List<IPosition> shots, List<String> descriptions)
+	{
+		if (database == null || gameId < 0)
+			return;
+
+		for (int i = 0; i < shots.size(); i++)
+			database.saveMove(gameId, moveNumber, "Adversário",
+					String.valueOf(shots.get(i)), descriptions.get(i));
 	}
 
 	/**
@@ -373,23 +413,30 @@ public class Game implements IGame
 
 		if (!pos.isInside()) {
 			countInvalidShots++;
+			lastShotDescription = "INVÁLIDO"; // BD
 			return new ShotResult(false, false, null, false);
 		}
 
 		if (isRepeated || repeatedShot(pos)) {
 			countRepeatedShots++;
+			lastShotDescription = "REPETIDO"; // BD
 			return new ShotResult(true, true, null, false);
 		}
 
 		IShip ship = myFleet.shipAt(pos);
-		if (ship == null)
+		if (ship == null) {
+			lastShotDescription = "ÁGUA"; // BD
 			return new ShotResult(true, false, null, false);
+		}
 		else
 		{
 			ship.shoot(pos);
 			countHits++;
 			if (!ship.stillFloating()) {
 				countSinks++;
+				lastShotDescription = "AFUNDOU (" + ship.getCategory() + ")"; // BD
+			} else {
+				lastShotDescription = "ACERTO (" + ship.getCategory() + ")"; // BD
 			}
 			return new ShotResult(true, false, ship, !ship.stillFloating());
 		}
@@ -447,9 +494,9 @@ public class Game implements IGame
 	}
 
 	public void over() {
-			System.out.println();
-			System.out.println("+--------------------------------------------------------------+");
-			System.out.println("| Maldito sejas, Java Sparrow, eu voltarei, glub glub glub ... |");
-			System.out.println("+--------------------------------------------------------------+");
+		System.out.println();
+		System.out.println("+--------------------------------------------------------------+");
+		System.out.println("| Maldito sejas, Java Sparrow, eu voltarei, glub glub glub ... |");
+		System.out.println("+--------------------------------------------------------------+");
 	}
 }
