@@ -73,6 +73,7 @@ public class Tasks {
 						game.readEnemyFire(in);
 						myFleet.printStatus();
 						game.printMyBoard(true, false);
+                        GameWindow.update();
 
 						if (game.getRemainingShips() == 0) {
 							game.over();
@@ -86,6 +87,7 @@ public class Tasks {
 							game.randomEnemyFire();
 							myFleet.printStatus();
 							game.printMyBoard(true, false);
+                            GameWindow.update();
 							try {
 								Thread.sleep(3000);
 							} catch (InterruptedException e) {
