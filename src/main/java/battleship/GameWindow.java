@@ -25,6 +25,14 @@ public class GameWindow {
     private static void createWindow() {
         stage = new Stage();
 
+        stage.setTitle("Battleship");
+
+        refreshBoards();
+
+        stage.show();
+    }
+
+    private static void refreshBoards() {
         VBox myBoard = createBoard(
                 "Meu Tabuleiro",
                 game.getMyFleet(),
@@ -42,9 +50,15 @@ public class GameWindow {
 
         Scene scene = new Scene(boards, 900, 500);
 
-        stage.setTitle("Battleship");
         stage.setScene(scene);
-        stage.show();
+    }
+
+    public static void update() {
+        Platform.runLater(() -> {
+            if (stage != null) {
+                refreshBoards();
+            }
+        });
     }
 
     private static VBox createBoard(
