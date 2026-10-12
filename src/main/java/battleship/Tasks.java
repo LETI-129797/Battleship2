@@ -33,6 +33,7 @@ public class Tasks {
 	private static final String MAPA = "mapa";
 	private static final String STATUS = "estado";
 	private static final String SIMULA = "simula";
+	private static final String HISTORICO_DE_JOGADAS = "historico";
 	private static final String HISTORICO = "historico";
 
 	// Acesso à base de dados
@@ -47,6 +48,10 @@ public class Tasks {
 	public static void menu() {
 
 		IFleet myFleet = null;
+		IGame game = null;
+
+		GestorDeTempo gestorDeTempo = new GestorDeTempo();
+
 		Game game = null;
 		menuHelp();
 
@@ -66,6 +71,10 @@ public class Tasks {
 					printGameId();
 
 					game.printMyBoard(false, true);
+
+					gestorDeTempo.reiniciar();
+					gestorDeTempo.iniciarJogada();
+
 					GameWindow.open(game);
 					break;
 				case LEFROTA:
@@ -78,26 +87,39 @@ public class Tasks {
 					printGameId();
 
 					game.printMyBoard(false, true);
+
+					gestorDeTempo.reiniciar();
+					gestorDeTempo.iniciarJogada();
+
 					GameWindow.open(game);
 					break;
 				case STATUS:
-					if (myFleet != null)
+					if (myFleet != null) {
 						myFleet.printStatus();
+					}
 					break;
 				case MAPA:
-					if (myFleet != null)
+					if (myFleet != null) {
 						game.printMyBoard(false, true);
+					}
 					break;
 				case RAJADA:
 					if (game != null) {
+
 						game.readEnemyFire(in);
+
+						gestorDeTempo.finalizarJogada();
+
 						myFleet.printStatus();
 						game.printMyBoard(true, false);
                         GameWindow.update();
 
 						if (game.getRemainingShips() == 0) {
 							game.over();
+							gestorDeTempo.mostrarHistorico();
 							System.exit(0);
+						}else{
+							gestorDeTempo.iniciarJogada();
 						}
 					}
 					break;
@@ -125,6 +147,14 @@ public class Tasks {
 					if (game != null)
 						game.printMyBoard(true, true);
 					break;
+
+				case HISTORICO_DE_JOGADAS:
+					gestorDeTempo.mostrarHistorico();
+					break;
+
+                case AJUDA:
+                    menuHelp();
+                    break;
 				case HISTORICO:
 					showHistory(in.nextLine().trim());
 					break;
@@ -137,6 +167,7 @@ public class Tasks {
 			System.out.print("> ");
 			command = in.next();
 		}
+		gestorDeTempo.mostrarHistorico();
 		System.out.println(GOODBYE_MESSAGE);
 	}
 
@@ -195,6 +226,7 @@ public class Tasks {
 		System.out.println("- " + RAJADA + ": Realiza uma rajada de disparos.");
 		System.out.println("- " + SIMULA + ": Simula um jogo completo.");
 		System.out.println("- " + TIROS + ": Lista os tiros válidos realizados (* = tiro em navio, o = tiro na água)");
+		System.out.println("- " + HISTORICO_DE_JOGADAS + ": Mostrar o historico de tempo gasto por jogada.");
 		System.out.println("- " + HISTORICO + " [id]: Lista as jogadas guardadas na base de dados (do jogo atual se não indicar id).");
 		System.out.println("- " + DESISTIR + ": Encerra o jogo.");
 		System.out.println("===============================================================");
