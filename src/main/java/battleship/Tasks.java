@@ -48,7 +48,7 @@ public class Tasks {
 	public static void menu() {
 
 		IFleet myFleet = null;
-		IGame game = null;
+		//IGame game = null;
 
 		GestorDeTempo gestorDeTempo = new GestorDeTempo();
 
@@ -148,13 +148,7 @@ public class Tasks {
 						game.printMyBoard(true, true);
 					break;
 
-				case HISTORICO_DE_JOGADAS:
-					gestorDeTempo.mostrarHistorico();
-					break;
 
-                case AJUDA:
-                    menuHelp();
-                    break;
 				case HISTORICO:
 					showHistory(in.nextLine().trim());
 					break;
