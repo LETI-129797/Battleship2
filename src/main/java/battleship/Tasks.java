@@ -75,6 +75,7 @@ public class Tasks {
 					gestorDeTempo.reiniciar();
 					gestorDeTempo.iniciarJogada();
 
+					GameWindow.open(game);
 					break;
 				case LEFROTA:
 					myFleet = buildFleet(in);
@@ -90,6 +91,7 @@ public class Tasks {
 					gestorDeTempo.reiniciar();
 					gestorDeTempo.iniciarJogada();
 
+					GameWindow.open(game);
 					break;
 				case STATUS:
 					if (myFleet != null) {
@@ -110,6 +112,7 @@ public class Tasks {
 
 						myFleet.printStatus();
 						game.printMyBoard(true, false);
+                        GameWindow.update();
 
 						if (game.getRemainingShips() == 0) {
 							game.over();
@@ -126,6 +129,7 @@ public class Tasks {
 							game.randomEnemyFire();
 							myFleet.printStatus();
 							game.printMyBoard(true, false);
+                            GameWindow.update();
 							try {
 								Thread.sleep(3000);
 							} catch (InterruptedException e) {
