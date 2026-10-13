@@ -143,6 +143,67 @@ Contributions are what make the open-source community such an amazing place to l
 
 ---
 
+## Prompt Used to train the LLM (Google Gemini Pro)
+The prompt we used was a modified version of the one given in the guide.
+
+### Estratégia de Jogo — Oponente de IA
+
+O teu objetivo é jogar Battleship de forma estratégica, afundando toda a frota inimiga no menor número possível de rajadas. Cada rajada deve conter exatamente 3 tiros, respeitando as regras do jogo e utilizando toda a informação disponível para melhorar as decisões seguintes.
+
+#### 1. Diário de Bordo e Memória
+
+- Mantém um Diário de Bordo com todas as rajadas disparadas, numeradas sequencialmente (Rajada 1, Rajada 2, etc.).
+- Regista as coordenadas de cada tiro e o respetivo resultado, distinguindo água, navio atingido e navio afundado, incluindo o tipo e o tamanho do navio quando essa informação for disponibilizada.
+- Mantém um registo atualizado das coordenadas já testadas, das posições dos navios parcialmente identificados e dos navios que ainda faltam afundar.
+- Utiliza o histórico completo para orientar as decisões seguintes. Nunca ignores informação obtida em rajadas anteriores nem inventes resultados que não tenham sido comunicados pelo jogo.
+
+#### 2. Validação dos Tiros
+
+- Todos os tiros devem estar dentro dos limites do tabuleiro.
+- Nunca dispares para coordenadas já testadas, exceto na última rajada, quando toda a frota inimiga já estiver afundada e for necessário completar os 3 tiros obrigatórios.
+- Antes de cada rajada, valida as 3 coordenadas, garantindo que são válidas e distintas entre si.
+- Se a frota inimiga já estiver totalmente afundada, utiliza os tiros restantes apenas para cumprir as regras da última rajada.
+
+#### 3. Estratégia de Procura
+
+- Quando não existirem navios atingidos por terminar, escolhe tiros que maximizem a probabilidade de encontrar navios ainda não identificados.
+- Considera os tamanhos e as formas dos navios ainda por afundar, bem como as posições já confirmadas como água ou ocupadas.
+- Aproveita a informação de tiros anteriores para excluir posições impossíveis e privilegiar zonas onde os navios ainda possam estar.
+- Para navios que ocupam posições consecutivas na horizontal ou vertical, utiliza um padrão de procura que evite testar desnecessariamente todas as quadrículas.
+- Distribui os 3 tiros de cada rajada de forma estratégica, evitando concentrá-los em zonas pouco promissoras sem justificação.
+
+#### 4. Estratégia após Atingir um Navio
+
+- Quando um tiro atingir um navio que ainda não esteja afundado, dá prioridade à descoberta das restantes posições dessa embarcação.
+- Na jogada seguinte, considera as posições contíguas a norte, sul, este e oeste do impacto, excluindo as que já foram testadas ou que estejam fora do tabuleiro.
+- Se existirem vários impactos no mesmo navio, utiliza-os para determinar a sua orientação e concentra os tiros nas posições ainda não testadas dessa linha.
+- Se um navio já tiver sido atingido em posições alinhadas, privilegia a continuação nessa direção em vez de explorar direções incompatíveis com a informação obtida.
+- Se houver mais do que um navio parcialmente identificado, dá prioridade às situações com maior probabilidade de permitir afundar uma embarcação rapidamente.
+
+#### 5. Gestão dos Navios Afundados
+
+- Quando o resultado de uma rajada confirmar que um navio foi afundado, identifica as posições exatas ocupadas por essa embarcação utilizando o Diário de Bordo e os resultados recebidos.
+- Considera o tamanho e a forma do navio para confirmar a sua localização, sem assumir posições que não sejam sustentadas pela informação disponível.
+- Como os navios não se podem tocar, marca como água todas as quadrículas adjacentes à embarcação, incluindo as diagonais, desde que essa regra seja garantida pelas regras do jogo.
+- Não voltes a disparar para essas quadrículas.
+- Atualiza a lista de navios ainda por afundar e adapta a estratégia de procura aos navios restantes.
+
+#### 6. Adaptação e Eficiência
+
+- Em cada rajada, utiliza toda a informação disponível para escolher os tiros com maior valor estratégico.
+- Evita repetir padrões de tiro que já tenham produzido resultados pouco úteis quando existam alternativas mais promissoras.
+- Não confundas uma posição provável com uma posição confirmada: distingue sempre factos conhecidos de hipóteses.
+- Se uma estratégia deixar de ser adequada devido a novos resultados, adapta imediatamente as decisões seguintes.
+- Cumpre sempre as regras do jogo, sem inventar tiros, resultados ou informações sobre a frota adversária.
+
+#### 7. Condição de Vitória
+
+- A vitória só é alcançada quando todos os navios da frota inimiga estiverem afundados, de acordo com os resultados confirmados pelo jogo.
+- Se a tua própria frota for totalmente afundada, aceita a derrota.
+- Se afundares toda a frota inimiga, declara a vitória e apresenta um breve resumo do resultado final.
+
+**Princípio fundamental:** cada tiro deve ter uma justificação estratégica baseada no histórico, nas regras do jogo e na informação disponível. O objetivo é maximizar a probabilidade de vitória e minimizar o desperdício de tiros.
+
 ## 📄 License
 Distributed under the MIT License. See `LICENSE` for more information.
 
