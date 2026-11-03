@@ -73,7 +73,7 @@ Hits are calculated based on the intersection of the shot vector and the ship's 
 
 ## 📚 Documentation
 
-You can access the generated Javadoc here:
+You can access the generated Javadoc here:l
 
 👉 [Battleship2 API Documentation](https://britoeabreu.github.io/Battleship2/)
 
