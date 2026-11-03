@@ -1,5 +1,10 @@
 # ⚓ Battleship 2.0
 
+##  Link do vídeo de demonstração
+https://youtu.be/eRD_koZutco
+
+
+
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
 ![Java Version](https://img.shields.io/badge/Java-17%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
@@ -73,7 +78,7 @@ Hits are calculated based on the intersection of the shot vector and the ship's 
 
 ## 📚 Documentation
 
-You can access the generated Javadoc here:
+You can access the generated Javadoc here:l
 
 👉 [Battleship2 API Documentation](https://britoeabreu.github.io/Battleship2/)
 
