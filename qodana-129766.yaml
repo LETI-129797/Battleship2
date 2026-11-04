@@ -7,7 +7,7 @@ projectJDK: 25
 
 profile:
   base:
-    path: .qodana/profiles/long-method-129766.yaml
+    path: qodana/profiles/long-method-129766.yaml
 
 # O Quality Gate falha quando encontra pelo menos
 # um problema nas inspeções ativadas no perfil.
