@@ -7,25 +7,5 @@ public class TestLongMethod {
 
         contador++;
         contador++;
-        contador++;
-        contador++;
-        contador++;
-        contador++;
-        contador++;
-        contador++;
-        contador++;
-        contador++;
-        contador++;
-        contador++;
-        contador++;
-        contador++;
-        contador++;
-        contador++;
-        contador++;
-        contador++;
-        contador++;
-        contador++;
-        contador++;
-        contador++;
     }
 }
