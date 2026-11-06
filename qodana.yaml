@@ -3,14 +3,16 @@ version: "1.0"
 
 linter: qodana-jvm
 
-# Projeto Java com JDK 25 e Maven
 projectJDK: 25
 
 profile:
-    path: .qodana/profiles/long-method-129766.yaml
+  name: qodana.starter
 
-# O Quality Gate falha quando encontra pelo menos
-# um problema nas inspeções ativadas no perfil.
+  include:
+    - name: OverlyLongMethod
+      paths:
+        - src/main/java/battleship/TestLongMethod.java
+
 failureConditions:
   severityThresholds:
     any: 0
