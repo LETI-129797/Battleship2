@@ -1,3 +1,4 @@
+
 # 129766 - Ana Sofia Mateus Marques
 version: "1.0"
 
@@ -6,8 +7,7 @@ linter: qodana-jvm
 projectJDK: 25
 
 profile:
-  name: qodana.starter
-
+  name: empty
   include:
     - name: OverlyLongMethod
       paths:
@@ -16,3 +16,4 @@ profile:
 failureConditions:
   severityThresholds:
     any: 0
+
