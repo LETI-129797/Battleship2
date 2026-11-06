@@ -1,3 +1,4 @@
+
 # 129766 - Ana Sofia Mateus Marques
 name: Qodana smell gate 129766
 
@@ -23,8 +24,9 @@ jobs:
 
       - uses: JetBrains/qodana-action@v2026.2
         with:
-          args: --config qodana-129766.yaml
+          args: --config qodana.yaml
           use-annotations: true
           post-pr-comment: true
+          upload-result: true
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
