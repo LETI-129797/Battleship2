@@ -1,9 +1,5 @@
 # 129797 - Simão Pedroso Duarte
-version: "1.0"
-
-profile:
-  base:
-    name: empty
+baseProfile: empty
 
   inspections:
     - inspection: ParametersPerMethod
