@@ -15,8 +15,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
       - name: Qodana Scan
         uses: JetBrains/qodana-action@v2026.2.2
         with:
-          args: --config,qodana-129797.yaml
+          args: --config qodana-129797.yaml
