@@ -1,0 +1,32 @@
+name: Checkstyle 129769
+
+on:
+  pull_request:
+    branches:
+      - LETI-129769
+      - master
+
+permissions: {}
+
+jobs:
+  checkstyle:
+    name: Checkstyle - ConstantName
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      checks: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Checkstyle for Java
+        uses: dbelyaev/action-checkstyle@v4.5.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          checkstyle_config: CheckStyle/checkstyle-129769.xml
+          reporter: github-pr-check
+          level: error
+          filter_mode: nofilter
+          fail_level: error
