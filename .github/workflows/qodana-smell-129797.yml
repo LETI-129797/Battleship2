@@ -1,5 +1,5 @@
 #129797 - Simão Pedroso Duarte
-name: Qodana smell Long Parameter List 129797
+name: Qodana smell gate (Long Parameter List) 129797
 on:
   pull_request:
   push:
@@ -14,5 +14,10 @@ jobs:
       checks: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
       - name: Qodana Scan
         uses: JetBrains/qodana-action@v2026.2.2
+        with:
+          args: --config qodana-129797.yaml
