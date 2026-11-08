@@ -6,17 +6,16 @@ linter: jetbrains/qodana-jvm:2026.2
 projectJDK: 21
 
 profile:
-  base:
-    name: empty
+  name: empty
 
   inspections:
-    - inspection: ClassWithTooManyMethods
+    - inspection: MethodCount
       enabled: true
       severity: WARNING
       options:
         m_limit: 15
 
-    - inspection: ClassWithTooManyFields
+    - inspection: FieldCount
       enabled: true
       severity: WARNING
       options:
