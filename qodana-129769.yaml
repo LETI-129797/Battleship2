@@ -6,7 +6,8 @@ linter: jetbrains/qodana-jvm:2026.2
 projectJDK: 21
 
 profile:
-  path: qodana/profiles/large-class-129769.yaml
+  base:
+    path: qodana/profiles/large-class-129769.yaml
 
 failureConditions:
   severityThresholds:
