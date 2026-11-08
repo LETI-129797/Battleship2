@@ -6,7 +6,7 @@ linter: jetbrains/qodana-jvm-community:2026.2
 projectJDK: "27"
 
 profile:
-  path: .qodana/profiles/long-parameter-list-129797.yaml
+  path: qodana/profiles/long-parameter-list-129797.yaml
 
 include:
   - name: ParametersPerMethod
