@@ -21,12 +21,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      - name: Run Checkstyle
-        uses: dbelyaev/action-checkstyle@v3
+      - name: Checkstyle for Java
+        uses: dbelyaev/action-checkstyle@v4.5.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           checkstyle_config: CheckStyle/checkstyle-129769.xml
           reporter: github-pr-check
           level: error
-          filter_mode: added
+          filter_mode: nofilter
           fail_level: error
