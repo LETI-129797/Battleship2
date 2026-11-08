@@ -24,7 +24,7 @@ jobs:
 
       - uses: JetBrains/qodana-action@v2026.2
         with:
-          args: --config qodana-129769.yaml --profile-path qodana/profiles/large-class-129769.yaml
+          args: --config qodana-129769.yaml
           use-annotations: true
           post-pr-comment: true
         env:
