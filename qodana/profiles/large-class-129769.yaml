@@ -12,13 +12,13 @@ profile:
       enabled: true
       severity: WARNING
       options:
-        # Limiar a confirmar através da exportação XML
+        m_limit: 15
 
     - inspection: FieldCount
       enabled: true
       severity: WARNING
       options:
-        # Limiar a confirmar através da exportação XML
+        m_limit: 10
 
     - inspection: ClassComplexity
       enabled: true
