@@ -1,0 +1,27 @@
+# 129769 - Tiago Miguel Gomes Ribeiro
+# Code smell: Large Class
+
+version: "1.0"
+
+profile:
+  base:
+    name: empty
+
+  inspections:
+    - inspection: MethodCount
+      enabled: true
+      severity: WARNING
+      options:
+        # Limiar a confirmar através da exportação XML
+
+    - inspection: FieldCount
+      enabled: true
+      severity: WARNING
+      options:
+        # Limiar a confirmar através da exportação XML
+
+    - inspection: ClassComplexity
+      enabled: true
+      severity: WARNING
+      options:
+        m_limit: 47
