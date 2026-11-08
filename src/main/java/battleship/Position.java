@@ -42,12 +42,12 @@ public class Position implements IPosition {
 	 * Constructs a new Position with the specified row and column.
 	 * By default, the position is not occupied and not hit.
 	 *
-	 * @param classicRow    the row coordinate of the position
-	 * @param classicColumn the column coordinate of the position
+	 * @param ClassicRow    the row coordinate of the position
+	 * @param ClassicColumn the column coordinate of the position
 	 */
-	public Position(char classicRow, int classicColumn) {
-		this.row = Character.toUpperCase(classicRow) - 'A';
-		this.column = classicColumn-1;
+	public Position(char ClassicRow, int ClassicColumn) {
+		this.row = Character.toUpperCase(ClassicRow) - 'A';
+		this.column = ClassicColumn-1;
 		this.isOccupied = false;
 		this.isHit = false;
 	}
