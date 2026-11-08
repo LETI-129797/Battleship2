@@ -3,6 +3,7 @@ name: Checkstyle 129769
 on:
   pull_request:
     branches:
+      - LETI-129769
       - master
 
 permissions: {}
