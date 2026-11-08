@@ -6,7 +6,26 @@ linter: jetbrains/qodana-jvm:2026.2
 projectJDK: 21
 
 profile:
-  path: qodana/profiles/large-class-129769.yaml
+  name: empty
+
+  inspections:
+    - inspection: MethodCount
+      enabled: true
+      severity: WARNING
+      options:
+        m_limit: 15
+
+    - inspection: FieldCount
+      enabled: true
+      severity: WARNING
+      options:
+        m_limit: 10
+
+    - inspection: ClassComplexity
+      enabled: true
+      severity: WARNING
+      options:
+        m_limit: 47
 
 failureConditions:
   severityThresholds:
