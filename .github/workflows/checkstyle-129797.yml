@@ -1,0 +1,27 @@
+name: Checkstyle gate 129797
+
+on:
+  pull_request:
+    branches: [master]
+
+
+jobs:
+  checkstyle:
+    name: Checkstyle - ParameterName
+    runs-on: ubuntu-latest
+    
+    
+    permissions:
+      contents: read
+      checks: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dbelyaev/action-checkstyle@v3
+        with:
+          checkstyle_config: CheckStyle/checkstyle-129797.xml
+          reporter: github-pr-check
+          level: error
+          filter_mode: added
+          fail_level: error
