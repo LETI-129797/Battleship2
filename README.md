@@ -1,5 +1,15 @@
 # ⚓ Battleship 2.0
 
+## Integração Contínua (GitHub Actions)
+
+O repositório tem um workflow em `.github/workflows/maven.yml` que:
+- É executado em cada **push** (qualquer ramo) e em **pull requests** para `main`;
+- Instala o JDK 17 (Temurin);
+- Executa `mvn clean test`, correndo toda a bateria de testes JUnit.
+
+Estado do workflow:
+![Build] https://github.com/LETI-129797/Battleship2/actions/workflows/maven.yml
+
 ##  Link do vídeo de demonstração
 https://youtu.be/eRD_koZutco
 
