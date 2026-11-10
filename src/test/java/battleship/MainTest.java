@@ -37,4 +37,11 @@ class MainTest {
             System.setOut(originalOut);
         }
     }
+
+    @Test
+    @DisplayName("Testar construtor de Main")
+    void testConstructor() {
+        Main main = new Main();
+        assertNotNull(main);
+    }
 }
