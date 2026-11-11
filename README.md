@@ -1,20 +1,5 @@
 # ⚓ Battleship 2.0
 
-## Integração Contínua (GitHub Actions)
-
-O repositório tem um workflow em `.github/workflows/maven.yml` que:
-- É executado em cada **push** (qualquer ramo) e em **pull requests** para `main`;
-- Instala o JDK 17 (Temurin);
-- Executa `mvn clean test`, correndo toda a bateria de testes JUnit.
-
-Estado do workflow:
-![Build] https://github.com/LETI-129797/Battleship2/actions/workflows/maven.yml
-
-##  Link do vídeo de demonstração
-https://youtu.be/eRD_koZutco
-
-
-
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
 ![Java Version](https://img.shields.io/badge/Java-17%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
@@ -88,7 +73,7 @@ Hits are calculated based on the intersection of the shot vector and the ship's 
 
 ## 📚 Documentation
 
-You can access the generated Javadoc here:l
+You can access the generated Javadoc here:
 
 👉 [Battleship2 API Documentation](https://britoeabreu.github.io/Battleship2/)
 
