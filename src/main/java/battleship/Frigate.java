@@ -19,7 +19,7 @@ public class Frigate extends Ship {
 	public Frigate(Compass bearing, IPosition pos) {
 		super("Fragata", bearing, pos, 4);
 
-		extracted(bearing, pos);
+		calculatePositions(bearing, pos);
 	}
 
 

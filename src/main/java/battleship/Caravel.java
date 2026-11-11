@@ -19,7 +19,7 @@ public class Caravel extends Ship {
 	public Caravel(Compass bearing, IPosition pos) {
 		super("Caravela", bearing, pos, 2);
 
-		extracted(bearing, pos);
+		calculatePositions(bearing, pos);
 	}
 
 }

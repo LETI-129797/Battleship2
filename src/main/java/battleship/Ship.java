@@ -432,7 +432,7 @@ public abstract class Ship implements IShip
 	return "[" + category + " " + bearing + " " + pos + "]";
     }
 
-	protected void extracted(Compass bearing, IPosition pos) {
+	protected void calculatePositions(Compass bearing, IPosition pos) {
 		switch (bearing) {
 			case NORTH:
 				for (int r = 0; r < this.getSize(); r++)
