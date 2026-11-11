@@ -1,0 +1,217 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > GameDataBase</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">battleship</a>
+</div>
+
+<h1>Coverage Summary for Class: GameDataBase (battleship)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GameDataBase</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (39/39)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package battleship;
+&nbsp;
+&nbsp;import java.sql.*;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;public class GameDataBase {
+&nbsp;
+&nbsp;    private static final String URL = &quot;jdbc:h2:./data/battleship&quot;;
+&nbsp;    private static final String USER = &quot;sa&quot;;
+&nbsp;    private static final String PASSWORD = &quot;&quot;;
+&nbsp;
+<b class="fc">&nbsp;    public GameDataBase() {</b>
+<b class="fc">&nbsp;        createTables();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private Connection connect() throws SQLException {
+<b class="fc">&nbsp;        return DriverManager.getConnection(URL, USER, PASSWORD);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void createTables() {
+<b class="fc">&nbsp;        try (Connection c = connect(); Statement s = c.createStatement()) {</b>
+<b class="fc">&nbsp;            s.execute(&quot;&quot;&quot;</b>
+&nbsp;                    CREATE TABLE IF NOT EXISTS game (
+&nbsp;                        id BIGINT AUTO_INCREMENT PRIMARY KEY,
+&nbsp;                        started_at TIMESTAMP NOT NULL
+&nbsp;                    )&quot;&quot;&quot;);
+<b class="fc">&nbsp;            s.execute(&quot;&quot;&quot;</b>
+&nbsp;                    CREATE TABLE IF NOT EXISTS move (
+&nbsp;                        id BIGINT AUTO_INCREMENT PRIMARY KEY,
+&nbsp;                        game_id BIGINT NOT NULL,
+&nbsp;                        move_number INT NOT NULL,
+&nbsp;                        player VARCHAR(100) NOT NULL,
+&nbsp;                        coordinates VARCHAR(100) NOT NULL,
+&nbsp;                        result VARCHAR(200) NOT NULL,
+&nbsp;                        played_at TIMESTAMP NOT NULL,
+&nbsp;                        FOREIGN KEY (game_id) REFERENCES game(id)
+&nbsp;                    )&quot;&quot;&quot;);
+&nbsp;        } catch (SQLException e) {
+<b class="fc">&nbsp;            System.err.println(&quot;Erro ao criar tabelas: &quot; + e.getMessage());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /** Regista um jogo novo e devolve o seu id (-1 se falhar). */
+&nbsp;    public long startGame() {
+<b class="fc">&nbsp;        String sql = &quot;INSERT INTO game (started_at) VALUES (?)&quot;;</b>
+<b class="fc">&nbsp;        try (Connection c = connect();</b>
+<b class="fc">&nbsp;             PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {</b>
+<b class="fc">&nbsp;            ps.setTimestamp(1, new Timestamp(System.currentTimeMillis()));</b>
+<b class="fc">&nbsp;            ps.executeUpdate();</b>
+<b class="fc">&nbsp;            try (ResultSet keys = ps.getGeneratedKeys()) {</b>
+<b class="fc">&nbsp;                if (keys.next()) return keys.getLong(1);</b>
+&nbsp;            }
+&nbsp;        } catch (SQLException e) {
+<b class="fc">&nbsp;            System.err.println(&quot;Erro ao guardar o jogo: &quot; + e.getMessage());</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return -1;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /** Guarda uma jogada. */
+&nbsp;    public void saveMove(long gameId, int moveNumber, String player,
+&nbsp;                         String coordinates, String result) {
+<b class="fc">&nbsp;        String sql = &quot;&quot;&quot;</b>
+&nbsp;                INSERT INTO move (game_id, move_number, player, coordinates, result, played_at)
+&nbsp;                VALUES (?, ?, ?, ?, ?, ?)&quot;&quot;&quot;;
+<b class="fc">&nbsp;        try (Connection c = connect(); PreparedStatement ps = c.prepareStatement(sql)) {</b>
+<b class="fc">&nbsp;            ps.setLong(1, gameId);</b>
+<b class="fc">&nbsp;            ps.setInt(2, moveNumber);</b>
+<b class="fc">&nbsp;            ps.setString(3, player);</b>
+<b class="fc">&nbsp;            ps.setString(4, coordinates);</b>
+<b class="fc">&nbsp;            ps.setString(5, result);</b>
+<b class="fc">&nbsp;            ps.setTimestamp(6, new Timestamp(System.currentTimeMillis()));</b>
+<b class="fc">&nbsp;            ps.executeUpdate();</b>
+&nbsp;        } catch (SQLException e) {
+<b class="fc">&nbsp;            System.err.println(&quot;Erro ao guardar a jogada: &quot; + e.getMessage());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /** Lista as jogadas de um jogo, já formatadas para mostrar. */
+&nbsp;    public List&lt;String&gt; listMoves(long gameId) {
+<b class="fc">&nbsp;        List&lt;String&gt; moves = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        String sql = &quot;&quot;&quot;</b>
+&nbsp;                SELECT move_number, player, coordinates, result, played_at
+&nbsp;                FROM move WHERE game_id = ? ORDER BY move_number, id&quot;&quot;&quot;;
+<b class="fc">&nbsp;        try (Connection c = connect(); PreparedStatement ps = c.prepareStatement(sql)) {</b>
+<b class="fc">&nbsp;            ps.setLong(1, gameId);</b>
+<b class="fc">&nbsp;            try (ResultSet rs = ps.executeQuery()) {</b>
+<b class="fc">&nbsp;                while (rs.next()) {</b>
+<b class="fc">&nbsp;                    moves.add(&quot;#&quot; + rs.getInt(&quot;move_number&quot;) + &quot; &quot;</b>
+<b class="fc">&nbsp;                            + rs.getString(&quot;player&quot;) + &quot; -&gt; &quot;</b>
+<b class="fc">&nbsp;                            + rs.getString(&quot;coordinates&quot;) + &quot; : &quot;</b>
+<b class="fc">&nbsp;                            + rs.getString(&quot;result&quot;) + &quot; (&quot;</b>
+<b class="fc">&nbsp;                            + rs.getTimestamp(&quot;played_at&quot;) + &quot;)&quot;);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        } catch (SQLException e) {
+<b class="fc">&nbsp;            System.err.println(&quot;Erro ao listar jogadas: &quot; + e.getMessage());</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return moves;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-11-11 19:15</div>
+</div>
+</body>
+</html>
