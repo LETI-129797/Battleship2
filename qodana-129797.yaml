@@ -1,0 +1,16 @@
+#129797 - Simão Pedroso Duarte
+version: "1.0"
+
+linter: jetbrains/qodana-jvm-community:2026.2
+
+projectJDK: "27"
+
+profile:
+  path: qodana/profiles/long-parameter-list-129797.yaml
+
+include:
+  - name: ParametersPerMethod
+
+failureConditions:
+  severityThresholds:
+    any: 0

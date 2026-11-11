@@ -1,0 +1,14 @@
+# 129766 - Ana Sofia Mateus Marques
+version: "1.0"
+
+profile:
+  base:
+    name: empty
+
+  inspections:
+    # Inspeção principal: métodos demasiado longos
+    - inspection: OverlyLongMethod
+      enabled: true
+      severity: WARNING
+      options:
+        m_limit: 20

@@ -1,0 +1,18 @@
+# 129766 - Ana Sofia Mateus Marques
+version: "1.0"
+
+linter: qodana-jvm
+
+projectJDK: 21
+
+profile:
+  name: qodana.starter
+
+  include:
+    - name: OverlyLongMethod
+      paths:
+        - src/main/java/battleship/TestLongMethod.java
+
+failureConditions:
+  severityThresholds:
+    any: 0
