@@ -162,7 +162,7 @@ class GameTest {
 		Fleet fleet = new Fleet();
 
 		String output = captureOutput(() ->
-				Game.printBoard(fleet, List.of(), false, false)
+                BoardPrinter.printBoard(fleet, List.of(), false, false)
 		);
 
 		assertTrue(output.contains("A |"));
@@ -195,7 +195,7 @@ class GameTest {
 		IMove move = new Move(1, shots, List.of());
 
 		String output = captureOutput(() ->
-				Game.printBoard(fleet, List.of(move), true, true)
+                BoardPrinter.printBoard(fleet, List.of(move), true, true)
 		);
 
 		assertTrue(output.contains("*"));
