@@ -1,0 +1,9 @@
+# 129797 - Simão Pedroso Duarte
+baseProfile: empty
+
+inspections:
+  - inspection: ParametersPerMethod
+    enabled: true
+    severity: WARNING
+    options:
+      m_limit: 5

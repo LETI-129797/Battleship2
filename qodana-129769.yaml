@@ -1,0 +1,32 @@
+# 129769 - Tiago Miguel Gomes Ribeiro
+version: "1.0"
+
+linter: jetbrains/qodana-jvm:2026.2
+
+projectJDK: 21
+
+profile:
+  name: empty
+
+  inspections:
+    - inspection: MethodCount
+      enabled: true
+      severity: WARNING
+      options:
+        m_limit: 15
+
+    - inspection: FieldCount
+      enabled: true
+      severity: WARNING
+      options:
+        m_limit: 10
+
+    - inspection: ClassComplexity
+      enabled: true
+      severity: WARNING
+      options:
+        m_limit: 47
+
+failureConditions:
+  severityThresholds:
+    any: 0
