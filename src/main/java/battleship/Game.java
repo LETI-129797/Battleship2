@@ -3,6 +3,7 @@ package battleship;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -251,32 +252,9 @@ public class Game implements IGame
 		this.myFleet.getSunkShips().forEach(ship -> usablePositions.removeAll(ship.getAdjacentPositions()));
 		this.alienMoves.forEach(move ->  usablePositions.removeAll(move.getShots()));
 
-		List<IPosition> candidateShots = new ArrayList<>(usablePositions);
+        List<IPosition> shots = generateRandomShots(usablePositions, random);
 
-		// Criar lista para armazenar os tiros
-		List<IPosition> shots = new ArrayList<IPosition>();
-
-		System.out.println();
-		// Gerar coordenadas únicas até atingir o número definido por NUMBER_SHOTS
-
-		IPosition newShot = null;
-		if (candidateShots.size() >= Game.NUMBER_SHOTS)
-			while (shots.size() < Game.NUMBER_SHOTS) {
-				newShot = candidateShots.get(random.nextInt(candidateShots.size()));
-				if (!shots.contains(newShot))
-					shots.add(newShot);
-			}
-		else {
-			while (shots.size() < candidateShots.size()) {
-				newShot = candidateShots.get(random.nextInt(candidateShots.size()));
-				if (!shots.contains(newShot))
-					shots.add(newShot);
-			}
-			while (shots.size() < Game.NUMBER_SHOTS)
-				shots.add(newShot);
-		}
-
-		System.out.print("rajada ");
+        System.out.print("rajada ");
 		for (IPosition shot : shots)
 			System.out.print(shot + " ");
 		System.out.println();
@@ -286,8 +264,36 @@ public class Game implements IGame
 		return Game.jsonShots(shots);
 	}
 
+    private static @NotNull List<IPosition> generateRandomShots(Set<IPosition> usablePositions, Random random) {
+        List<IPosition> candidateShots = new ArrayList<>(usablePositions);
 
-	/**
+        // Criar lista para armazenar os tiros
+        List<IPosition> shots = new ArrayList<IPosition>();
+
+        System.out.println();
+        // Gerar coordenadas únicas até atingir o número definido por NUMBER_SHOTS
+
+        IPosition newShot = null;
+        if (candidateShots.size() >= Game.NUMBER_SHOTS)
+            while (shots.size() < Game.NUMBER_SHOTS) {
+                newShot = candidateShots.get(random.nextInt(candidateShots.size()));
+                if (!shots.contains(newShot))
+                    shots.add(newShot);
+            }
+        else {
+            while (shots.size() < candidateShots.size()) {
+                newShot = candidateShots.get(random.nextInt(candidateShots.size()));
+                if (!shots.contains(newShot))
+                    shots.add(newShot);
+            }
+            while (shots.size() < Game.NUMBER_SHOTS)
+                shots.add(newShot);
+        }
+        return shots;
+    }
+
+
+    /**
 	 * Reads and processes the enemy fire input from the specified scanner.
 	 * The method expects input describing positions for enemy shots. It verifies
 	 * the format, ensures the correct number of positions are provided, and then fires
