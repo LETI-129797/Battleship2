@@ -1,3 +1,4 @@
+
 package battleship;
 
 import com.google.common.base.Stopwatch;
@@ -23,10 +24,7 @@ public class GestorDeTempo {
     public void iniciarJogada() {
         contadorJogadas++;
 
-        if (stopwatch.isRunning()) {
-            stopwatch.stop();
-        }
-        stopwatch.reset();
+        reiniciarStopwatch();
         stopwatch.start();
 
         System.out.println("-> Tempo a contar para a jogada " + contadorJogadas + "...");
@@ -67,12 +65,19 @@ public class GestorDeTempo {
      * limpando o histórico e zerando o contador de jogadas.
      */
     public void reiniciar() {
+        reiniciarStopwatch();
+        this.contadorJogadas = 0;
+        this.historico.clear();
+    }
+
+    /**
+     * Para o cronómetro, caso esteja em execução, e coloca-o a zero.
+     */
+    private void reiniciarStopwatch() {
         if (stopwatch.isRunning()) {
             stopwatch.stop();
         }
         stopwatch.reset();
-        this.contadorJogadas = 0;
-        this.historico.clear();
     }
 
     public List<RegistoDeTempo> getHistorico() {
