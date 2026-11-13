@@ -11,6 +11,6 @@
 | `GameWindow` | Misplaced Responsibilities | Extract Class / Move Method | 129766 |
 | `Tasks::menu` | High Cognitive Complexity (36) | Extract Method | 129766 |
 | `Tasks` (métodos de leitura e construção da frota) | Misplaced Responsibilities | Extract Class / Move Method | 129766 |
-| `Tasks::menu` (inicialização nos comandos `GERAFROTA` e `LEFROTA`) | Duplicated Code | Extract Method | 1297-- |
+| `Tasks::menu` (inicialização nos comandos `GERAFROTA` e `LEFROTA`) | Duplicated Code | Extract Method | 129766 |
 | `GameController::evaluateShots` (`session`) | Unused Parameter | Remove Parameter | 1297-- |
 | `TestLongMethod::metodoMuitoLongo` | Dead Code / Unused Code | Safe Delete | 1297-- |
