@@ -1,3 +1,4 @@
+
 package battleship;
 
 import javafx.application.Platform;
@@ -71,6 +72,17 @@ public class GameWindow {
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
 
+        addColumnLabels(grid);
+        addRowLabels(grid);
+        addBoardCells(grid, fleet, moves);
+
+        VBox board = new VBox(10, boardTitle, grid);
+        board.setAlignment(Pos.CENTER);
+
+        return board;
+    }
+
+    private static void addColumnLabels(GridPane grid) {
         // Números das colunas
         for (int col = 0; col < Game.BOARD_SIZE; col++) {
 
@@ -83,7 +95,9 @@ public class GameWindow {
 
             grid.add(label, col + 1, 0);
         }
+    }
 
+    private static void addRowLabels(GridPane grid) {
         // Letras das linhas
         for (int row = 0; row < Game.BOARD_SIZE; row++) {
 
@@ -98,6 +112,12 @@ public class GameWindow {
 
             grid.add(label, 0, row + 1);
         }
+    }
+
+    private static void addBoardCells(
+            GridPane grid,
+            IFleet fleet,
+            List<IMove> moves) {
 
         // Células do tabuleiro
         for (int row = 0; row < Game.BOARD_SIZE; row++) {
@@ -121,11 +141,6 @@ public class GameWindow {
                 grid.add(cell, col + 1, row + 1);
             }
         }
-
-        VBox board = new VBox(10, boardTitle, grid);
-        board.setAlignment(Pos.CENTER);
-
-        return board;
     }
 
     private static char getMarker(
