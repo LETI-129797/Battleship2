@@ -6,11 +6,11 @@
 | `Caravel`, `Carrack` e `Frigate` | Duplicated Code | Pull Up Method | 129769 |
 | `Move::processEnemyFire` | High Cognitive Complexity (106) | Extract Method | 129769 |
 | `Move::processEnemyFire` (`" tiro"`) | Duplicated String Literal | Replace with Constant | 129769 |
-| `GestorDeTempo::iniciarJogada` e `reiniciar` | Duplicated Code | Extract Method | 1297-- |
-| `GameWindow::createBoard` | Long Method / Multiple Responsibilities | Extract Method | 1297-- |
-| `GameWindow` | Misplaced Responsibilities | Extract Class / Move Method | 1297-- |
-| `Tasks::menu` | High Cognitive Complexity (36) | Extract Method | 1297-- |
-| `Tasks` (métodos de leitura e construção da frota) | Misplaced Responsibilities | Extract Class / Move Method | 1297-- |
+| `GestorDeTempo::iniciarJogada` e `reiniciar` | Duplicated Code | Extract Method | 129766 |
+| `GameWindow::createBoard` | Long Method / Multiple Responsibilities | Extract Method | 129766 |
+| `GameWindow` | Misplaced Responsibilities | Extract Class / Move Method | 129766 |
+| `Tasks::menu` | High Cognitive Complexity (36) | Extract Method | 129766 |
+| `Tasks` (métodos de leitura e construção da frota) | Misplaced Responsibilities | Extract Class / Move Method | 129766 |
 | `Tasks::menu` (inicialização nos comandos `GERAFROTA` e `LEFROTA`) | Duplicated Code | Extract Method | 1297-- |
 | `GameController::evaluateShots` (`session`) | Unused Parameter | Remove Parameter | 1297-- |
 | `TestLongMethod::metodoMuitoLongo` | Dead Code / Unused Code | Safe Delete | 1297-- |
