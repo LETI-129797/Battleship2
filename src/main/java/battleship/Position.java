@@ -234,6 +234,5 @@ public class Position implements IPosition {
 	@Override
 	public String toString() {
 		return (char) ('A' + row) + "" + (column + 1);
-//		return "Row = " + (char) ('A' + row) + ", Column = " + (column + 1);
 	}
 }
