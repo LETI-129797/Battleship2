@@ -92,7 +92,7 @@ public abstract class Ship implements IShip
 	/**
 	 * The size
 	 */
-	private Integer size;
+	private final Integer size;
 
 	/**
 	 * The Positions occupied by the ship.
@@ -107,7 +107,7 @@ public abstract class Ship implements IShip
 	 * @param pos      The position of ships of interest
 	 * @param size		The number of positions occupied by the ship
 	 */
-	public Ship(String category, Compass bearing, IPosition pos, int size)
+	protected Ship(String category, Compass bearing, IPosition pos, int size)
     {
 		this.category = Objects.requireNonNull(category, "Ship's category must not be null");
 		this.bearing = Objects.requireNonNull(bearing, "Ship's bearing must not be null");
@@ -396,8 +396,11 @@ public abstract class Ship implements IShip
 	{
 		assert this != null;
 
-		return (getLeftMostPos() >= 0 && getRightMostPos() <= Game.BOARD_SIZE - 1 && getTopMostPos() >= 0
-				&& getBottomMostPos() <= Game.BOARD_SIZE - 1);
+		boolean leftMost = getLeftMostPos() >= 0;
+		boolean rightMost = getRightMostPos() <= Game.BOARD_SIZE - 1;
+		boolean topMost = getTopMostPos() >= 0;
+		boolean bottomMost = getBottomMostPos() <= Game.BOARD_SIZE - 1;
+		return (leftMost && rightMost && topMost && bottomMost);
 	}
 	/**
 	 * Shoot.
