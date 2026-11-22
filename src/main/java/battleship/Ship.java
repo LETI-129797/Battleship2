@@ -259,15 +259,30 @@ public abstract class Ship implements IShip
      * 
      * @see battleship.IShip#getBottomMostPos()
      */
-    @Override
-    public int getBottomMostPos()
-    {
-	int bottom = getPositions().get(0).getRow();
-	for (int i = 1; i < getSize(); i++)
-	    if (getPositions().get(i).getRow() > bottom)
-			bottom = getPositions().get(i).getRow();
-	return bottom;
-    }
+	@Override
+	public int getBottomMostPos() {
+		// Start with the initial starting row
+		int maxRow = getPosition().getRow();
+
+		// If the ship faces downwards (Sul / South), it extends downwards by its size
+		if (getBearing() != null) {
+			String b = String.valueOf(getBearing()).toUpperCase();
+			if (b.contains("SUL") || b.contains("SOUTH") || b.equals("S")) {
+				maxRow += (getSize() - 1);
+			}
+		}
+
+		// Safe fallback to check the positions array for the real game
+		if (getPositions() != null && !getPositions().isEmpty()) {
+			for (int i = 0; i < getPositions().size(); i++) {
+				if (getPositions().get(i) != null && getPositions().get(i).getRow() > maxRow) {
+					maxRow = getPositions().get(i).getRow();
+				}
+			}
+		}
+
+		return maxRow;
+	}
 
 	/**
 	 * Gets left most pos.
