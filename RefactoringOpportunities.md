@@ -14,7 +14,6 @@
 | `Tasks::menu` (inicialização nos comandos `GERAFROTA` e `LEFROTA`) | Duplicated Code | Extract Method | 129766 |
 | `Ship::Ship` (construtor) | Incorrect Visibility | Change Signature | 129797 |
 | `Ship::isInsideBoard` | Complex Condition | Introduce Variable | 129797 |
-| `Ship::getAdjacentPositions` | Concrete Collection Type | Use Interface Where Possible | 129797 |
 | `Tasks::showHistory` | Long Method | Extract Method | 129797 |
 | `Ship::size` | Mutable Field Exposure | Encapsulate Fields / Make Final | 129797 |
 | `BoardPrinter` (variáveis locais) | Naming Convention | Rename | 129797 |
